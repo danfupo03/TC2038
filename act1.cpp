@@ -66,7 +66,7 @@ void daysToProduceShirts(int shirts)
 int main()
 {
     float radius, height, mililiters;
-    cout << "Ingrese el radio del contenedor (metros): ";
+    cout << "\nIngrese el radio del contenedor (metros): ";
     cin >> radius;
     cout << "Ingrese la altura del contenedor (metros): ";
     cin >> height;
@@ -76,7 +76,7 @@ int main()
     cout << "El volumen del contenedor es: " << volume << " cm3" << endl;
     cout << "El numero de refrescos que se pueden llenar con una carga son: " << numberOfBottles(volume, mililiters) << endl;
 
-    cout << "-----------------------------" << endl;
+    cout << "\n-----------------------------" << endl;
 
     int shirts;
     cout << "Ingrese el numero de camisas: ";
