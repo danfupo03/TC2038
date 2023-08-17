@@ -40,18 +40,25 @@ void daysToProduceShirts(int shirts)
 {
     int days = 0;
     srand(time(NULL));
-    float line1 = rand() % 1000 / 10;
-    float line2 = rand() % 1000 / 10;
+
     float producedShirts = 0;
     float currProducedShirts;
+
     while (producedShirts < shirts)
     {
-        line1 = rand() % 1000 / 10;
-        line2 = rand() % 1000 / 10;
-        currProducedShirts = line1 + line2;
+        float line1 = rand() % 1000 / 10;
+        float line2 = rand() % 1000 / 10;
+
         days++;
+
+        currProducedShirts = line1 + line2;
+        
         producedShirts += currProducedShirts;
+        cout << "Dia " << days << ": " << endl;
+        cout << "Produccion en linea 1: " << line1 << endl;
+        cout << "Produccion en linea 2: " << line2 << endl;
         cout << "El dia " << days << " se produjeron " << currProducedShirts << " camisas. Total: " << producedShirts << endl;
+        cout << "-----------------------------" << endl;
     }
     cout << "Se necesitaron " << days << " dia(s) para producir " << shirts << " camisas." << endl;
 }
