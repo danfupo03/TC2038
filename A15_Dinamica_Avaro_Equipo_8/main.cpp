@@ -100,25 +100,106 @@ map<int, int> coinsDP(vector<int> denominaciones, int costo, int pago)
     return dfs(0, pago - costo, denominaciones);
 }
 
-int main(int argc, char const *argv[])
+std::map<int, int> obtenerMejorCambio(const std::vector<int> &denominaciones, int costo, int pago)
 {
-    vector<int> denominaciones = {1, 2, 5, 10, 20, 50};
-    int costo = 0;
-    int pago = 521;
-    auto res = coinsGreedy(denominaciones, costo, pago);
-    cout << "Greedy:" << endl;
-    for (auto i : res)
+    std::map<int, int> cambios;
+
+    int total = pago - costo;
+
+    const int numDenominaciones = denominaciones.size();
+
+    std::vector<std::vector<int>> dp(total + 1, std::vector<int>(numDenominaciones, -1));
+    std::vector<int> seleccion(total + 1, -1);
+
+    dp[0][0] = 0;
+
+    for (int i = 0; i <= total; i++)
     {
-        cout << i.first << " " << i.second << endl;
+        for (int j = 0; j < numDenominaciones; j++)
+        {
+            if (denominaciones[j] <= i)
+            {
+                if (dp[i - denominaciones[j]][j] != -1)
+                {
+                    dp[i][j] = dp[i - denominaciones[j]][j] + 1;
+                    seleccion[i] = j;
+                }
+            }
+
+            if (j > 0 && dp[i][j - 1] != -1 && (dp[i][j] == -1 || dp[i][j - 1] < dp[i][j]))
+            {
+                dp[i][j] = dp[i][j - 1];
+                seleccion[i] = j - 1;
+            }
+        }
     }
-    cout << endl;
-    cout << "DP:" << endl;
-    res = coinsDP(denominaciones, costo, pago);
-    for (auto i : res)
+
+    if (dp[total][numDenominaciones - 1] == -1)
     {
-        cout << i.first << " " << i.second << endl;
+        // No se encontró una solución
+        return cambios;
     }
-    cout << endl;
+
+    int j = numDenominaciones - 1;
+    int i = total;
+    
+    while (i > 0 && j >= 0)
+    {
+        if (seleccion[i] == j)
+        {
+            cambios[denominaciones[j]]++;
+            i -= denominaciones[j];
+        }
+        else
+        {
+            j--;
+        }
+    }
+
+    // Agregar las denominaciones que no se usaron con cantidad 0
+    for (const int denominacion : denominaciones)
+    {
+        if (cambios.find(denominacion) == cambios.end())
+        {
+            cambios[denominacion] = 0;
+        }
+    }
+
+    return cambios;
+}
+
+int main()
+{
+    // std::vector<int> denominaciones = {5, 10, 20, 25};
+    // int costo = 160;
+    // int pago = 200;
+
+
+    std::vector<int> denominaciones = {1, 10, 7};
+    int costo = 85;
+    int pago = 100;
+
+    //Greedy
+
+    std::cout << "Greedy" << endl;
+
+    std::map<int, int> resGreedy = coinsGreedy(denominaciones, costo, pago);
+
+    for (const auto &par : resGreedy)
+    {
+        std::cout << par.first << " " << par.second << std::endl;
+    }
+    
+    //DP
+
+    std::cout << "DP" << endl;
+
+    std::map<int, int> res = obtenerMejorCambio(denominaciones, costo, pago);
+
+    for (const auto &par : res)
+    {
+        std::cout << par.first << " " << par.second << std::endl;
+    }
 
     return 0;
 }
