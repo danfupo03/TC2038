@@ -1,6 +1,3 @@
-
-// func that return a pair od ints
-
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -15,7 +12,15 @@ using std::pair;
 using std::sort;
 using std::vector;
 
-// overload << for a int int map
+/**
+ * @brief ostream operator for map<int, int>
+ *
+ * @param os
+ * @param m
+ * @return ** std::ostream&
+ *
+ * @complexity O(n)
+ */
 std::ostream &operator<<(std::ostream &os, const map<int, int> &m)
 {
     for (auto i : m)
@@ -25,6 +30,16 @@ std::ostream &operator<<(std::ostream &os, const map<int, int> &m)
     return os;
 }
 
+/**
+ * @brief Greedy algorithm for coin change problem
+ *
+ * @param denominaciones
+ * @param costo
+ * @param pago
+ * @return map<int, int>
+ *
+ * @complexity O(n)
+ */
 map<int, int> coinsGreedy(vector<int> denominaciones, int costo, int pago)
 {
     sort(denominaciones.begin(), denominaciones.end(), greater<int>());
@@ -51,6 +66,16 @@ map<int, int> coinsGreedy(vector<int> denominaciones, int costo, int pago)
     return cambios;
 }
 
+/**
+ * @brief DFS algorithm for coin change problem
+ *
+ * @param i
+ * @param cambio
+ * @param denominaciones
+ * @return map<int, int>
+ *
+ * @complexity O(n)
+ */
 map<int, int> dfs(int i, int cambio, vector<int> denominaciones)
 {
     if (cambio == 0)
@@ -95,11 +120,31 @@ map<int, int> dfs(int i, int cambio, vector<int> denominaciones)
     }
 }
 
+/**
+ * @brief Dynamic Programming algorithm for coin change problem
+ *
+ * @param denominaciones
+ * @param costo
+ * @param pago
+ * @return map<int, int>
+ *
+ * @complexity O(n)
+ */
 map<int, int> coinsDP(vector<int> denominaciones, int costo, int pago)
 {
     return dfs(0, pago - costo, denominaciones);
 }
 
+/**
+ * @brief Dynamic Programming algorithm for coin change problem
+ *
+ * @param denominaciones
+ * @param costo
+ * @param pago
+ * @return map<int, int>
+ *
+ * @complexity O(n)
+ */
 std::map<int, int> obtenerMejorCambio(const std::vector<int> &denominaciones, int costo, int pago)
 {
     std::map<int, int> cambios;
@@ -142,7 +187,7 @@ std::map<int, int> obtenerMejorCambio(const std::vector<int> &denominaciones, in
 
     int j = numDenominaciones - 1;
     int i = total;
-    
+
     while (i > 0 && j >= 0)
     {
         if (seleccion[i] == j)
@@ -174,12 +219,11 @@ int main()
     // int costo = 160;
     // int pago = 200;
 
-
     std::vector<int> denominaciones = {1, 10, 7};
     int costo = 85;
     int pago = 100;
 
-    //Greedy
+    // Greedy
 
     std::cout << "Greedy" << endl;
 
@@ -189,8 +233,8 @@ int main()
     {
         std::cout << par.first << " " << par.second << std::endl;
     }
-    
-    //DP
+
+    // DP
 
     std::cout << "DP" << endl;
 
