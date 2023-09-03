@@ -110,28 +110,6 @@ map<int, int> coinsDP(vector<int> denominaciones, int costo, int pago)
     return dfs(0, pago - costo, denominaciones);
 }
 
-// int main(int argc, char const *argv[])
-// {
-//     vector<int> denominaciones = {1, 2, 5, 10, 20, 50};
-//     int costo = 0;
-//     int pago = 521;
-//     auto res = coinsGreedy(denominaciones, costo, pago);
-//     cout << "Greedy:" << endl;
-//     for (auto i : res)
-//     {
-//         cout << i.first << " " << i.second << endl;
-//     }
-//     cout << endl;
-//     cout << "DP:" << endl;
-//     res = coinsDP(denominaciones, costo, pago);
-//     for (auto i : res)
-//     {
-//         cout << i.first << " " << i.second << endl;
-//     }
-//     cout << endl;
-// }
-
-
 std::map<int, int> obtenerMejorCambio(const std::vector<int> &denominaciones, int costo, int pago)
 {
     std::map<int, int> cambios;
@@ -225,7 +203,7 @@ int main()
 
     std::cout << "DP" << endl;
 
-    std::map<int, int> res = coinsDP(denominaciones, costo, pago);
+    std::map<int, int> res = obtenerMejorCambio(denominaciones, costo, pago);
 
     for (const auto &par : res)
     {
