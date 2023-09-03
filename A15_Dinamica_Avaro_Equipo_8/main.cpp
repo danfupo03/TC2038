@@ -181,9 +181,14 @@ map<int, int> obtenerMejorCambio(const vector<int> &denominacionesG, int costo, 
 
 int main()
 {
-    vector<int> denominaciones = {1, 4, 5};
-    int costo = 0;
-    int pago = 8;
+    int numDenominaciones, costo, pago;
+    cin >> numDenominaciones;
+    vector<int> denominaciones(numDenominaciones);
+    for (int i = 0; i < numDenominaciones; i++)
+    {
+        cin >> denominaciones[i];
+    }
+    cin >> costo >> pago;
 
     // Greedy
     cout << "Greedy: " << endl;
