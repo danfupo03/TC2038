@@ -1,19 +1,32 @@
 {
     "files.associations": {
+<<<<<<< HEAD
         "*.css": "tailwindcss",
         "utility": "cpp",
         "vector": "cpp",
         "atomic": "cpp",
         "bit": "cpp",
+=======
+        "*.ejs": "html",
+        "array": "cpp",
+        "atomic": "cpp",
+        "bit": "cpp",
+        "*.tcc": "cpp",
+>>>>>>> 2b12dd83372615ff9993dbcd58b275901680e6f0
         "cctype": "cpp",
         "clocale": "cpp",
         "cmath": "cpp",
         "compare": "cpp",
         "concepts": "cpp",
+<<<<<<< HEAD
+=======
+        "cstdarg": "cpp",
+>>>>>>> 2b12dd83372615ff9993dbcd58b275901680e6f0
         "cstddef": "cpp",
         "cstdint": "cpp",
         "cstdio": "cpp",
         "cstdlib": "cpp",
+<<<<<<< HEAD
         "cstring": "cpp",
         "ctime": "cpp",
         "cwchar": "cpp",
@@ -50,5 +63,38 @@
         "set": "cpp",
         "xtree": "cpp",
         "unordered_map": "cpp"
+=======
+        "cwchar": "cpp",
+        "cwctype": "cpp",
+        "deque": "cpp",
+        "map": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "exception": "cpp",
+        "algorithm": "cpp",
+        "functional": "cpp",
+        "iterator": "cpp",
+        "memory": "cpp",
+        "memory_resource": "cpp",
+        "numeric": "cpp",
+        "random": "cpp",
+        "string_view": "cpp",
+        "system_error": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "initializer_list": "cpp",
+        "iosfwd": "cpp",
+        "iostream": "cpp",
+        "istream": "cpp",
+        "limits": "cpp",
+        "new": "cpp",
+        "numbers": "cpp",
+        "ostream": "cpp",
+        "stdexcept": "cpp",
+        "streambuf": "cpp",
+        "typeinfo": "cpp"
+>>>>>>> 2b12dd83372615ff9993dbcd58b275901680e6f0
     }
 }

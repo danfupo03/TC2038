@@ -51,48 +51,58 @@ map<int, int> coinsGreedy(vector<int> denominaciones, int costo, int pago)
     return cambios;
 }
 
-map<int, int> dfs(int i, int cambio, vector<int> denominaciones)
+map<int, int> dfs(int i, int cambio, vector<int> denominaciones, map<pair<int, int>, map<int, int>> memo = {})
 {
+    if (memo.find({i, cambio}) != memo.end())
+    {
+        return memo[{i, cambio}];
+    }
+
     if (cambio == 0)
     {
-        return {{i, 1}};
+        return {{0, 0}};
     }
-    if (cambio <= 0)
+    if (cambio < 0 || i >= denominaciones.size())
     {
         return {};
     }
-    else if (i >= denominaciones.size())
+    int minCoins = 1e9;
+    map<int, int> minDenominaciones;
+    map<int, int> res;
+    if (cambio >= denominaciones[i])
     {
-        return {};
+        res = dfs(i, cambio - denominaciones[i], denominaciones);
+        if (!res.empty())
+        {
+            res[denominaciones[i]]++;
+            int numCoins = 1;
+            for (auto i : res)
+                numCoins += i.second;
+
+            if (numCoins < minCoins)
+            {
+                minCoins = numCoins;
+                minDenominaciones = res;
+            }
+        }
     }
 
-    auto res1 = dfs(i + 1, cambio, denominaciones);
-    auto res2 = dfs(i, cambio - denominaciones[i], denominaciones);
-
-    cout << "i: " << i << " cambio: " << cambio << endl;
-    cout << "Res1: " << res1 << endl;
-    cout << "Res2: " << res2 << endl;
-
-    int val1 = 0;
-    for (auto i : res1)
+    res = dfs(i + 1, cambio, denominaciones);
+    if (!res.empty())
     {
-        val1 += i.second;
+        int numCoins = 0;
+        for (auto i : res)
+            numCoins += i.second;
+
+        if (numCoins < minCoins)
+        {
+            minCoins = numCoins;
+            minDenominaciones = res;
+        }
     }
 
-    int val2 = 0;
-    for (auto i : res2)
-    {
-        val2 += i.second;
-    }
-
-    if (val1 < val2)
-    {
-        return res1;
-    }
-    else
-    {
-        return res2;
-    }
+    memo[{i, cambio}] = minDenominaciones;
+    return minDenominaciones;
 }
 
 map<int, int> coinsDP(vector<int> denominaciones, int costo, int pago)
@@ -100,25 +110,127 @@ map<int, int> coinsDP(vector<int> denominaciones, int costo, int pago)
     return dfs(0, pago - costo, denominaciones);
 }
 
-int main(int argc, char const *argv[])
+// int main(int argc, char const *argv[])
+// {
+//     vector<int> denominaciones = {1, 2, 5, 10, 20, 50};
+//     int costo = 0;
+//     int pago = 521;
+//     auto res = coinsGreedy(denominaciones, costo, pago);
+//     cout << "Greedy:" << endl;
+//     for (auto i : res)
+//     {
+//         cout << i.first << " " << i.second << endl;
+//     }
+//     cout << endl;
+//     cout << "DP:" << endl;
+//     res = coinsDP(denominaciones, costo, pago);
+//     for (auto i : res)
+//     {
+//         cout << i.first << " " << i.second << endl;
+//     }
+//     cout << endl;
+// }
+
+
+std::map<int, int> obtenerMejorCambio(const std::vector<int> &denominaciones, int costo, int pago)
 {
+    std::map<int, int> cambios;
+
+    int total = pago - costo;
+
+    const int numDenominaciones = denominaciones.size();
+
+    std::vector<std::vector<int>> dp(total + 1, std::vector<int>(numDenominaciones, -1));
+    std::vector<int> seleccion(total + 1, -1);
+
+    dp[0][0] = 0;
+
+    for (int i = 0; i <= total; i++)
+    {
+        for (int j = 0; j < numDenominaciones; j++)
+        {
+            if (denominaciones[j] <= i)
+            {
+                if (dp[i - denominaciones[j]][j] != -1)
+                {
+                    dp[i][j] = dp[i - denominaciones[j]][j] + 1;
+                    seleccion[i] = j;
+                }
+            }
+
+            if (j > 0 && dp[i][j - 1] != -1 && (dp[i][j] == -1 || dp[i][j - 1] < dp[i][j]))
+            {
+                dp[i][j] = dp[i][j - 1];
+                seleccion[i] = j - 1;
+            }
+        }
+    }
+
+    if (dp[total][numDenominaciones - 1] == -1)
+    {
+        // No se encontró una solución
+        return cambios;
+    }
+
+    int j = numDenominaciones - 1;
+    int i = total;
+
+    while (i > 0 && j >= 0)
+    {
+        if (seleccion[i] == j)
+        {
+            cambios[denominaciones[j]]++;
+            i -= denominaciones[j];
+        }
+        else
+        {
+            j--;
+        }
+    }
+
+    // Agregar las denominaciones que no se usaron con cantidad 0
+    for (const int denominacion : denominaciones)
+    {
+        if (cambios.find(denominacion) == cambios.end())
+        {
+            cambios[denominacion] = 0;
+        }
+    }
+
+    return cambios;
+}
+
+int main()
+{
+    // std::vector<int> denominaciones = {5, 10, 20, 25};
+    // int costo = 160;
+    // int pago = 200;
+
     vector<int> denominaciones = {1, 2, 5, 10, 20, 50};
     int costo = 0;
     int pago = 521;
-    auto res = coinsGreedy(denominaciones, costo, pago);
-    cout << "Greedy:" << endl;
-    for (auto i : res)
+
+    // Greedy
+
+    std::cout << "Greedy" << endl;
+
+    std::map<int, int> resGreedy = coinsGreedy(denominaciones, costo, pago);
+
+    for (const auto &par : resGreedy)
     {
-        cout << i.first << " " << i.second << endl;
+        std::cout << par.first << " " << par.second << std::endl;
     }
-    cout << endl;
-    cout << "DP:" << endl;
-    res = coinsDP(denominaciones, costo, pago);
-    for (auto i : res)
+
+    // DP
+
+    std::cout << "DP" << endl;
+
+    std::map<int, int> res = coinsDP(denominaciones, costo, pago);
+
+    for (const auto &par : res)
     {
-        cout << i.first << " " << i.second << endl;
+        std::cout << par.first << " " << par.second << std::endl;
     }
-    cout << endl;
 
     return 0;
 }
