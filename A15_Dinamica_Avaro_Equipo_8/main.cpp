@@ -215,18 +215,15 @@ std::map<int, int> obtenerMejorCambio(const std::vector<int> &denominaciones, in
 
 int main()
 {
-    // std::vector<int> denominaciones = {5, 10, 20, 25};
-    // int costo = 160;
-    // int pago = 200;
-
-    std::vector<int> denominaciones = {1, 10, 7};
-    int costo = 85;
-    int pago = 100;
+    std::vector<int> denominaciones = {1, 5, 10, 25, 100};
+    int costo = 711;
+    int pago = 1000;
 
     // Greedy
 
     std::cout << "Greedy" << endl;
 
+    std::cout << "" << endl;
     std::map<int, int> resGreedy = coinsGreedy(denominaciones, costo, pago);
 
     for (const auto &par : resGreedy)
@@ -236,14 +233,16 @@ int main()
 
     // DP
 
-    std::cout << "DP" << endl;
+    std::cout << "\nDP" << endl;
 
+    std::cout << "" << endl;
     std::map<int, int> res = obtenerMejorCambio(denominaciones, costo, pago);
 
     for (const auto &par : res)
     {
         std::cout << par.first << " " << par.second << std::endl;
     }
+    std::cout << "" << endl;
 
     return 0;
 }
