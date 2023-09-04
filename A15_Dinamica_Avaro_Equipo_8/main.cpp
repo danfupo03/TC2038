@@ -1,6 +1,3 @@
-
-// func that return a pair od ints
-
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -103,6 +100,16 @@ map<int, int> dfs(int i, int cambio, vector<int> denominaciones, map<pair<int, i
     return minDenominaciones;
 }
 
+/**
+ * @brief Dynamic Programming algorithm for coin change problem
+ *
+ * @param denominaciones
+ * @param costo
+ * @param pago
+ * @return map<int, int>
+ *
+ * @complexity O(n)
+ */
 map<int, int> coinsDP(vector<int> denominaciones, int costo, int pago)
 {
     return dfs(0, pago - costo, denominaciones);
