@@ -7,7 +7,6 @@
 
 using namespace std;
 
-// overload << for a int int map
 ostream &operator<<(ostream &os, const map<int, int> &m)
 {
     for (auto i : m)
@@ -17,35 +16,7 @@ ostream &operator<<(ostream &os, const map<int, int> &m)
     return os;
 }
 
-map<int, int> coinsGreedy(const vector<int> &denominacionesG, const int costo, const int pago)
-{
-    // copy the vector and sort it in descending order
-    vector<int> denominaciones(denominacionesG);
-    sort(denominaciones.begin(), denominaciones.end(), greater<int>());
-
-    map<int, int> cambios;
-    int total = pago - costo;
-    int i = 0;
-    while (total > 0)
-    {
-        if (i >= denominaciones.size())
-        {
-            cout << "No hay Sistema Joven" << endl;
-            return {{-1, -1}};
-        }
-        if (total >= denominaciones[i])
-        {
-            total -= denominaciones[i];
-            cambios[denominaciones[i]]++;
-        }
-        else
-        {
-            i++;
-        }
-    }
-    return cambios;
-}
-
+// Just tests, not solutions
 map<int, int> dfs(int i, int cambio, vector<int> denominaciones, map<pair<int, int>, map<int, int>> memo = {})
 {
     if (memo.find({i, cambio}) != memo.end())
@@ -100,21 +71,62 @@ map<int, int> dfs(int i, int cambio, vector<int> denominaciones, map<pair<int, i
     return minDenominaciones;
 }
 
-/**
- * @brief Dynamic Programming algorithm for coin change problem
- *
- * @param denominaciones
- * @param costo
- * @param pago
- * @return map<int, int>
- *
- * @complexity O(n)
- */
+// Just tests, not solutions
 map<int, int> coinsDP(vector<int> denominaciones, int costo, int pago)
 {
     return dfs(0, pago - costo, denominaciones);
 }
 
+/**
+ * @brief Obtiene el menos cambio con el algoritmo avaro
+ *
+ * @param denominacionesG
+ * @param costo
+ * @param pago
+ * @return map<int, int>
+ *
+ * @complexity O(n) where n is the change (pago - costo) 
+ * This is reduced as bigger denominatios are given
+ */
+map<int, int> coinsGreedy(const vector<int> &denominacionesG, const int costo, const int pago)
+{
+    // copy the vector and sort it in descending order
+    vector<int> denominaciones(denominacionesG);
+    sort(denominaciones.begin(), denominaciones.end(), greater<int>());
+
+    map<int, int> cambios;
+    int total = pago - costo;
+    int i = 0;
+    while (total > 0)
+    {
+        if (i >= denominaciones.size())
+        {
+            cout << "No hay Sistema Joven" << endl;
+            return {{-1, -1}};
+        }
+        if (total >= denominaciones[i])
+        {
+            total -= denominaciones[i];
+            cambios[denominaciones[i]]++;
+        }
+        else
+        {
+            i++;
+        }
+    }
+    return cambios;
+}
+
+/**
+ * @brief Obtiene el mejor cambio para un pago dado un costo y un conjunto de denominaciones
+ *
+ * @param denominacionesG
+ * @param costo
+ * @param pago
+ * @return map<int, int>
+ *
+ * @complexity O(n * m) where n is the number of denominations and m is the change (pago - costo)
+ */
 map<int, int> obtenerMejorCambio(const vector<int> &denominacionesG, int costo, int pago)
 {
     vector<int> denominaciones(denominacionesG);
