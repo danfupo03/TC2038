@@ -42,7 +42,7 @@ vector<vector<double>> createMatrix(int rows, int cols)
  **/
 void printMatrix(vector<vector<double>> matrix)
 {
-    cout << "\nOrginal Matrix:" << endl;
+    cout << "\nOriginal Matrix:" << endl;
     for (int i = 0; i < matrix.size(); i++)
     {
         cout << "Row " << i + 1 << ": ";
@@ -55,7 +55,7 @@ void printMatrix(vector<vector<double>> matrix)
 }
 /* #endregion */
 
-/* #region Solving Maze Ramification*/
+/* #region Solving Maze*/
 
 /**
  * @brief Print a Matrix object
@@ -66,7 +66,7 @@ void printMatrix(vector<vector<double>> matrix)
  **/
 void printSolution(vector<vector<double>> sol)
 {
-    cout << "\nRamification Method:" << endl;
+    cout << "\nSolution:" << endl;
     for (int i = 0; i < sol.size(); i++)
     {
         cout << "Row " << i + 1 << ": ";
@@ -149,7 +149,7 @@ bool solveMaze(vector<vector<double>> maze)
 
     if (solveMazeUtil(maze, 0, 0, sol) == false)
     {
-        cout << "Solution doesn't exist";
+        cout << "Solution doesn't exist" << endl;
         return false;
     }
     printSolution(sol);
@@ -157,13 +157,9 @@ bool solveMaze(vector<vector<double>> maze)
 }
 /* #endregion */
 
-/* #region Solving Maze Backtracking*/
-
-/* #endregion */
-
 int main()
 {
-    /*
+
     int rows, cols;
     cout << "Enter the number of rows: ";
     cin >> rows;
@@ -175,59 +171,11 @@ int main()
         cout << "Rows and columns must be positive integers." << endl;
         return 1;
     }
-    */
 
-    vector<vector<double>> matrix = {
-        {1, 0, 1, 1, 1},
-        {1, 1, 1, 0, 1},
-        {1, 0, 1, 1, 1},
-        {1, 1, 1, 0, 1},
-    };
-
-    vector<vector<double>> matrix2 = {
-        {1, 1, 1, 1, 0, 1},
-        {1, 1, 0, 1, 1, 1},
-        {1, 0, 0, 1, 0, 1},
-        {1, 1, 0, 1, 0, 1},
-        {0, 1, 0, 1, 1, 1},
-        {1, 1, 1, 1, 0, 1},
-    };
-
-    vector<vector<double>> matrix3 = {
-        {1, 0, 0, 1},
-        {1, 1, 1, 0},
-        {0, 1, 1, 1},
-        {1, 0, 0, 1},
-    };
-
-    vector<vector<double>> matrix4 = {
-        {1, 1, 0, 1, 1, 1, 1, 1, 0},
-        {0, 1, 1, 1, 0, 0, 0, 1, 1},
-        {1, 1, 0, 1, 1, 1, 1, 1, 0},
-        {1, 0, 0, 0, 1, 1, 0, 1, 1},
-        {1, 1, 0, 1, 1, 0, 0, 0, 1},
-        {0, 1, 0, 1, 0, 1, 0, 0, 1},
-        {1, 1, 1, 1, 0, 1, 1, 0, 1},
-    };
-
-    cout << "Maze 1:" << endl;
+    vector<vector<double>> matrix = createMatrix(rows, cols);
     printMatrix(matrix);
+
     solveMaze(matrix);
-
-    cout << "--------------------------------------------------" << endl;
-    cout << "\nMaze 2:" << endl;
-    printMatrix(matrix2);
-    solveMaze(matrix2);
-
-    cout << "--------------------------------------------------" << endl;
-    cout << "\nMaze 3:" << endl;
-    printMatrix(matrix3);
-    solveMaze(matrix3);
-
-    cout << "--------------------------------------------------" << endl;
-    cout << "\nMaze 4:" << endl;
-    printMatrix(matrix4);
-    solveMaze(matrix4);
 
     return 0;
 }
