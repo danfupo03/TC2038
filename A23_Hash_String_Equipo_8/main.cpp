@@ -6,7 +6,8 @@
 
 using namespace std;
 
-int main() {
+int main()
+{
     string filename;
     int n;
 
@@ -17,7 +18,8 @@ int main() {
     cin >> n;
 
     // Validar que n cumple con los requisitos
-    if (n % 4 != 0 || n < 16 || n > 64) {
+    if (n % 4 != 0 || n < 16 || n > 64)
+    {
         cout << "El valor de n no cumple con los requisitos." << endl;
         return 1;
     }
@@ -25,50 +27,66 @@ int main() {
     // Abrir el archivo de texto
     ifstream file(filename);
 
-    if (!file) {
+    if (!file)
+    {
         cout << "No se pudo abrir el archivo." << endl;
         return 1;
     }
 
     // Leer el contenido del archivo y calcular el hash
-    vector<int> a(n, 0); // Inicializar el arreglo a con ceros
+    vector<int> result(n, 0); // Inicializar el arreglo a con ceros
+    int i = 0;
     int row = 0;
+    int col = 0;
     char c;
 
-    while (file.get(c)) {
-        int col = row % n;
-        a[col] += static_cast<int>(c);
-        row++;
+    while (file.get(c))
+    {
+        col = i % n;
+        result[col] += (int)(c);
+        if (c == '\n')
+            c = '-';
 
-        // Imprimir la tabla
-        if (col == n - 1 || file.peek() == EOF) {
-            for (int i = 0; i < n; i++) {
-                char letter = static_cast<char>(a[i] % 256);
-                cout << letter << " ";
-            }
-            if (file.peek() != EOF) {
-                cout << endl;
-            } else {
-                cout << "-" << endl;
-            }
+        cout << c << " ";
+        if (col == n - 1)
+        {
+            cout << endl;
         }
+        i++;
     }
 
-    // Calcular la cadena de salida en hexadecimal
-    stringstream hashStream;
-    for (int i = 0; i < n; i++) {
-        int hexValue = a[i] % 256;
-        hashStream << setw(2) << setfill('0') << uppercase << hex << hexValue;
-    }
+    int remaining = n - (i % n);
 
-    string hash = hashStream.str();
+    for (int j = 0; j < remaining; j++)
+    {
+        col = i % n;
+        result[col] += n;
+        cout << "[ ";
+        if (col == n - 1)
+        {
+            cout << endl;
+        }
+        i++;
+    }
 
     // Mostrar el arreglo a
     cout << "Arreglo a: ";
-    for (int i = 0; i < n; i++) {
-        cout << a[i] << " ";
+    for (int i = 0; i < n; i++)
+    {
+        cout << result[i] % 256 << " ";
     }
     cout << endl;
+
+    // Calcular la cadena de salida en hexadecimal
+    stringstream hashStream;
+    for (int i = 0; i < n; i += 2)
+    {
+        int hexValue = result[i] % 256;
+        int hexValue2 = result[i + 1] % 256;
+        hashStream << uppercase << hex << hexValue << hexValue2 << " ";
+    }
+
+    string hash = hashStream.str();
 
     // Mostrar la cadena de salida
     cout << "Cadena de salida: " << hash << endl;
