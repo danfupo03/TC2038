@@ -11,11 +11,12 @@ int main()
     string filename;
     int n;
 
-    cout << "Ingrese el nombre del archivo de texto: ";
+    cout << "\nIngrese el nombre del archivo de texto: ";
     cin >> filename;
 
     cout << "Ingrese el valor de n (un entero múltiplo de 4, 16 <= n <= 64): ";
     cin >> n;
+    cout << endl;
 
     // Validar que n cumple con los requisitos
     if (n % 4 != 0 || n < 16 || n > 64)
@@ -70,7 +71,7 @@ int main()
     }
 
     // Mostrar el arreglo a
-    cout << "Arreglo a: ";
+    cout << "\nArreglo:" << endl;
     for (int i = 0; i < n; i++)
     {
         cout << result[i] % 256 << " ";
@@ -89,7 +90,7 @@ int main()
     string hash = hashStream.str();
 
     // Mostrar la cadena de salida
-    cout << "Cadena de salida: " << hash << endl;
+    cout << "\nCadena de salida: " << "\n" << hash << endl;
 
     // Cerrar el archivo
     file.close();
