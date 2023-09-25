@@ -14,6 +14,8 @@ using namespace std;
  * @param a Primer par a comparar.
  * @param b Segundo par a comparar.
  * @return Devuelve true si a es menor que b en orden alfabético insensible a mayúsculas/minúsculas, false en caso contrario.
+ * 
+ * @complexity O(n), donde 'n' es la longitud de la cadena.
  */
 bool compareSubstrings(const pair<int, string>& a, const pair<int, string>& b) {
     string aLower = a.second;
@@ -38,6 +40,8 @@ bool compareSubstrings(const pair<int, string>& a, const pair<int, string>& b) {
  *          - Ordenar el vector de substrings toma O(n*log(n)).
  *          - Mostrar los substrings toma tiempo lineal en función del número de substrings, que es O(n^2) en el peor caso.
  *          Por lo tanto, la complejidad total es dominada por la ordenación y es O(n*log(n)), donde 'n' es la longitud de la cadena.
+ * 
+ * @complexity O(n*log(n)), donde 'n' es la longitud de la cadena.
  */
 void generateAndSortSubstrings(const string& input) {
     vector<pair<int, string>> substrings;
@@ -60,10 +64,12 @@ void generateAndSortSubstrings(const string& input) {
 int main() {
     string input;
 
-    cout << "Ingresa una cadena: ";
+    cout << "\nIngresa una cadena: ";
     cin >> input;
 
     generateAndSortSubstrings(input);
+
+    cout << endl;
 
     return 0;
 }
