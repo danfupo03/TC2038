@@ -1,2 +1,9 @@
-**/.DS_Store
+# Ignorar archivos .DS_Store generados por macOS
+.DS_Store
+
+# Ignorar archivos ejecutables de Windows
 *.exe
+
+# Ignorar ejecutables de Mac
+*.app
+
