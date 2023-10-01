@@ -1,23 +1,25 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <cstring>
+#include <vector>
 
 using namespace std;
 
 /**
- * @brief Función que busca una cadena en otra.
- * 
- * @param pat 
- * @param txt 
+ * @brief Funcion que busca una cadena en otra.
+ *
+ * @param pat
+ * @param txt
  */
-void search(char* pat, char* txt)
+void search(char *pat, char *txt)
 {
     int M = strlen(pat);
     int N = strlen(txt);
 
     if (M > N)
     {
-        cout << "La longitud del patrón es mayor que la de la cadena." << endl;
+        cout << "La longitud del patron es mayor que la de la cadena." << endl;
         return;
     }
 
@@ -41,8 +43,59 @@ void search(char* pat, char* txt)
 
     if (!found)
     {
-        cout << "(false) Cadena no encontrada en la transmisión" << endl;
+        cout << "(false) Cadena no encontrada en la transmision" << endl;
     }
+}
+
+/**
+ * @brief Function that generates a palindrome from a string.
+ *
+ * @param maliciusString
+ * @return the palindrome generated.
+ */
+
+string generatePalindrome(char *maliciusString)
+{
+    string palindrome = "";
+    int size = strlen(maliciusString);
+    for (int i = size - 1; i >= 0; i--)
+    {
+        palindrome += maliciusString[i];
+    }
+    return palindrome;
+}
+
+/**
+ * @brief Function that recieves a malicius string and search for a palindrome.
+ * in the string.
+ *
+ * @param maliciusString
+ * @return the initial position and final positions of the palindrome in the string.
+ */
+vector<pair<int, int>> searchPalindrome(char *maliciusString, char *transmission)
+{
+    string mCodePalindrome = generatePalindrome(maliciusString);
+
+    vector<pair<int, int>> positions;
+
+    int lenTransmission = strlen(transmission);
+
+    for (int i = 0; i < lenTransmission; i++)
+    {
+        int j = 0;
+        int k = i;
+        while (transmission[k] == mCodePalindrome[j] && j < mCodePalindrome.length())
+        {
+            j++;
+            k++;
+        }
+        if (j == mCodePalindrome.length())
+        {
+            positions.push_back(make_pair(i, k - 1));
+        }
+    }
+
+    return positions;
 }
 
 int main(int argc, char *argv[])
@@ -74,7 +127,18 @@ int main(int argc, char *argv[])
         strcat(s2, line);
     }
 
+    cout << "La cadena maliciosa : " << s1 << " se encuentra en la transmision: " << endl;
+
     search(s1, s2);
+
+    vector<pair<int, int>> positions = searchPalindrome(s1, s2);
+
+    cout << "Posiciones de los palindromos maliciosos: " << endl;
+
+    for (int i = 0; i < positions.size(); i++)
+    {
+        cout << "Posicion inicial: " << positions[i].first << " Posicion final: " << positions[i].second << endl;
+    }
 
     return 0;
 }
