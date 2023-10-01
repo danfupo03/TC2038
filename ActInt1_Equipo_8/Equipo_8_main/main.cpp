@@ -11,7 +11,7 @@ using namespace std;
  *
  * @param pat
  * @param txt
- * 
+ *
  * @complexity O(m*(n-m))
  */
 void search(string pat, string txt)
@@ -54,7 +54,7 @@ void search(string pat, string txt)
  *
  * @param maliciusString
  * @return the palindrome generated.
- * 
+ *
  * @complexity O(n)
  */
 string generatePalindrome(string maliciusString)
@@ -68,19 +68,10 @@ string generatePalindrome(string maliciusString)
     return palindrome;
 }
 
-/**
- * @brief Function that recieves a malicius string and search for a palindrome.
- * in the string.
- *
- * @param maliciusString
- * @return the initial position and final positions of the palindrome in the string.
- * 
- * @complexity O(m*(n-m))
- */
-vector<pair<int, int>> searchPalindrome(string maliciusString, string transmission)
-{
-    string mCodePalindrome = generatePalindrome(maliciusString);
 
+
+vector<pair<int, int>> searchAll(string pattern, string transmission)
+{
     vector<pair<int, int>> positions;
 
     int lenTransmission = transmission.length();
@@ -89,12 +80,12 @@ vector<pair<int, int>> searchPalindrome(string maliciusString, string transmissi
     {
         int j = 0;
         int k = i;
-        while (transmission[k] == mCodePalindrome[j] && j < mCodePalindrome.length())
+        while (transmission[k] == pattern[j] && j < pattern.length())
         {
             j++;
             k++;
         }
-        if (j == mCodePalindrome.length())
+        if (j == pattern.length())
         {
             positions.push_back(make_pair(i, k - 1));
         }
@@ -104,12 +95,27 @@ vector<pair<int, int>> searchPalindrome(string maliciusString, string transmissi
 }
 
 /**
+ * @brief Function that recieves a malicius string and search for a palindrome.
+ * in the string.
+ *
+ * @param maliciusString
+ * @return the initial position and final positions of the palindrome in the string.
+ *
+ * @complexity O(m*(n-m))
+ */
+vector<pair<int, int>> searchPalindrome(string maliciusString, string transmission)
+{
+    string mCodePalindrome = generatePalindrome(maliciusString);
+    return searchAll(mCodePalindrome, transmission);
+}
+
+/**
  * @brief Function that recieves two strings and returns the longest common substring.
  *
  * @param s1
  * @param s2
  * @return the longest common substring.
- * 
+ *
  * @complexity O(n*m)
  */
 string longuestCommonSubstring(string s1, string s2)
@@ -261,6 +267,20 @@ int main(int argc, char *argv[])
     cout << "\nSubcadena comun mas larga entre la transmision 1 y la transmision 2: " << endl;
     string longestCommonSubstring = longuestCommonSubstring(transmision1, transmision2);
     cout << longestCommonSubstring << endl;
+
+    cout << "\nCoincidencias en transmision 1:" << endl;
+    positions = searchAll(longestCommonSubstring, transmision1);
+    for (int i = 0; i < positions.size(); i++)
+    {
+        cout << "Posicion inicial: " << positions[i].first << " Posicion final: " << positions[i].second << endl;
+    }
+
+    cout << "\nCoincidencias en transmision 2:" << endl;
+    positions = searchAll(longestCommonSubstring, transmision2);
+    for (int i = 0; i < positions.size(); i++)
+    {
+        cout << "Posicion inicial: " << positions[i].first << " Posicion final: " << positions[i].second << endl;
+    }
 
     return 0;
 }
