@@ -14,10 +14,10 @@ using namespace std;
  * 
  * @complexity O(m*(n-m))
  */
-void search(char *pat, char *txt)
+void search(string pat, string txt)
 {
-    int M = strlen(pat);
-    int N = strlen(txt);
+    int M = pat.length();
+    int N = txt.length();
 
     if (M > N)
     {
@@ -38,14 +38,14 @@ void search(char *pat, char *txt)
         }
         if (j == M)
         {
-            cout << "\n(true) " << i << endl;
+            cout << "(true) " << i << endl;
             found = true;
         }
     }
 
     if (!found)
     {
-        cout << "\n(false) Cadena no encontrada en la transmision" << endl;
+        cout << "(false) Cadena no encontrada en la transmision" << endl;
     }
 }
 
@@ -55,11 +55,12 @@ void search(char *pat, char *txt)
  * @param maliciusString
  * @return the palindrome generated.
  * 
+ * @complexity O(n)
  */
-string generatePalindrome(char *maliciusString)
+string generatePalindrome(string maliciusString)
 {
     string palindrome = "";
-    int size = strlen(maliciusString);
+    int size = maliciusString.length();
     for (int i = size - 1; i >= 0; i--)
     {
         palindrome += maliciusString[i];
@@ -74,14 +75,15 @@ string generatePalindrome(char *maliciusString)
  * @param maliciusString
  * @return the initial position and final positions of the palindrome in the string.
  * 
+ * @complexity O(m*(n-m))
  */
-vector<pair<int, int>> searchPalindrome(char *maliciusString, char *transmission)
+vector<pair<int, int>> searchPalindrome(string maliciusString, string transmission)
 {
     string mCodePalindrome = generatePalindrome(maliciusString);
 
     vector<pair<int, int>> positions;
 
-    int lenTransmission = strlen(transmission);
+    int lenTransmission = transmission.length();
 
     for (int i = 0; i < lenTransmission; i++)
     {
@@ -101,47 +103,164 @@ vector<pair<int, int>> searchPalindrome(char *maliciusString, char *transmission
     return positions;
 }
 
+/**
+ * @brief Function that recieves two strings and returns the longest common substring.
+ *
+ * @param s1
+ * @param s2
+ * @return the longest common substring.
+ * 
+ * @complexity O(n*m)
+ */
+string longuestCommonSubstring(string s1, string s2)
+{
+    int n = s1.length();
+    int m = s2.length();
+    int dp[n + 1][m + 1];
+    int mx = 0, end = -1;
+    for (int i = 0; i <= n; i++)
+    {
+        for (int j = 0; j <= m; ++j)
+        {
+            if (i == 0 || j == 0)
+            {
+                dp[i][j] = 0;
+            }
+            else if (s1[i - 1] == s2[j - 1])
+            {
+                dp[i][j] = 1 + dp[i - 1][j - 1];
+                if (mx < dp[i][j])
+                {
+                    mx = dp[i][j];
+                    end = i - 1;
+                }
+            }
+            else
+            {
+                dp[i][j] = 0;
+            }
+        }
+    }
+
+    return s1.substr(end - mx + 1, mx);
+}
+
 int main(int argc, char *argv[])
 {
-    ifstream inputFile1, inputFile2;
-    char s1[1000];
-    char s2[1000] = "";
-    char line[1000];
+    ifstream inputFileT1, inputFileT2, inputFileMC1, inputFileMC2, inputFileMC3;
+    string line, transmision1, transmision2, mcode1, mcode2, mcode3;
 
-    if (argc < 3)
+    if (argc < 6)
     {
-        cout << "Uso: " << argv[0] << " <input_file> <input_file2>" << endl;
+        cout << "Uso: " << argv[0] << " <transmision1.txt> <transmision2.txt> <mcode1.txt> <mcode2.txt> <mcode3.txt>" << endl;
         return 1;
     }
 
-    inputFile1.open(argv[1]);
-    inputFile2.open(argv[2]);
+    // Opening files
+    inputFileT1.open(argv[1]);
+    inputFileT2.open(argv[2]);
+    inputFileMC1.open(argv[3]);
+    inputFileMC2.open(argv[4]);
+    inputFileMC3.open(argv[5]);
 
-    if (!inputFile1 || !inputFile2)
+    if (!inputFileT1 || !inputFileT2 || !inputFileMC1 || !inputFileMC2 || !inputFileMC3)
     {
-        cout << "Error abriendo el archivo" << endl;
+        cout << "Error abriendo los archivos" << endl;
         return 1;
     }
 
-    inputFile1 >> s1;
-
-    while (inputFile2.getline(line, sizeof(line)))
+    // Reading Transmissions
+    while (getline(inputFileT1, line))
     {
-        strcat(s2, line);
+        transmision1 += line;
     }
 
-    cout << "La cadena maliciosa: " << s1 << " se encuentra en la transmision: " << endl;
+    while (getline(inputFileT2, line))
+    {
+        transmision2 += line;
+    }
 
-    search(s1, s2);
+    // Reading Malicious Codes
+    inputFileMC1 >> mcode1;
+    inputFileMC2 >> mcode2;
+    inputFileMC3 >> mcode3;
 
-    vector<pair<int, int>> positions = searchPalindrome(s1, s2);
+    cout << "Transmision 1: " << transmision1 << endl
+         << endl;
+    cout << "Transmision 2: " << transmision2 << endl
+         << endl;
+    cout << "mcode 1: " << mcode1 << endl
+         << endl;
+    cout << "mcode 2: " << mcode2 << endl
+         << endl;
+    cout << "mcode 3: " << mcode3 << endl
+         << endl;
 
-    cout << "\nPosiciones de los palindromos maliciosos: " << endl;
+    cout << "La cadena maliciosa1 se encuentra en la transmision1: " << endl;
+    search(mcode1, transmision1);
 
+    cout << "\nLa cadena maliciosa2 se encuentra en la transmision1: " << endl;
+    search(mcode2, transmision1);
+
+    cout << "\nLa cadena maliciosa3 se encuentra en la transmision1: " << endl;
+    search(mcode3, transmision1);
+
+    cout << "\nLa cadena maliciosa1 se encuentra en la transmision2: " << endl;
+    search(mcode1, transmision2);
+
+    cout << "\nLa cadena maliciosa2 se encuentra en la transmision2: " << endl;
+    search(mcode2, transmision2);
+
+    cout << "\nLa cadena maliciosa3 se encuentra en la transmision2: " << endl;
+    search(mcode3, transmision2);
+
+    cout << "\nPosiciones de los Palindromos maliciosos: " << endl;
+
+    cout << "\nPalindromo de cadena maliciosa1 en la transmicion 1: " << endl;
+    vector<pair<int, int>> positions = searchPalindrome(mcode1, transmision1);
     for (int i = 0; i < positions.size(); i++)
     {
         cout << "Posicion inicial: " << positions[i].first << " Posicion final: " << positions[i].second << endl;
     }
+
+    cout << "\nPalindromo de cadena maliciosa2 en la transmicion 1: " << endl;
+    positions = searchPalindrome(mcode2, transmision1);
+    for (int i = 0; i < positions.size(); i++)
+    {
+        cout << "Posicion inicial: " << positions[i].first << " Posicion final: " << positions[i].second << endl;
+    }
+
+    cout << "\nPalindromo de cadena maliciosa3 en la transmicion 1: " << endl;
+    positions = searchPalindrome(mcode3, transmision1);
+    for (int i = 0; i < positions.size(); i++)
+    {
+        cout << "Posicion inicial: " << positions[i].first << " Posicion final: " << positions[i].second << endl;
+    }
+
+    cout << "\nPalindromo de cadena maliciosa1 en la transmicion 2: " << endl;
+    positions = searchPalindrome(mcode1, transmision2);
+    for (int i = 0; i < positions.size(); i++)
+    {
+        cout << "Posicion inicial: " << positions[i].first << " Posicion final: " << positions[i].second << endl;
+    }
+
+    cout << "\nPalindromo de cadena maliciosa2 en la transmicion 2: " << endl;
+    positions = searchPalindrome(mcode2, transmision2);
+    for (int i = 0; i < positions.size(); i++)
+    {
+        cout << "Posicion inicial: " << positions[i].first << " Posicion final: " << positions[i].second << endl;
+    }
+
+    cout << "\nPalindromo de cadena maliciosa3 en la transmicion 2: " << endl;
+    positions = searchPalindrome(mcode3, transmision2);
+    for (int i = 0; i < positions.size(); i++)
+    {
+        cout << "Posicion inicial: " << positions[i].first << " Posicion final: " << positions[i].second << endl;
+    }
+
+    cout << "\nSubcadena comun mas larga entre la transmision 1 y la transmision 2: " << endl;
+    string longestCommonSubstring = longuestCommonSubstring(transmision1, transmision2);
+    cout << longestCommonSubstring << endl;
 
     return 0;
 }
