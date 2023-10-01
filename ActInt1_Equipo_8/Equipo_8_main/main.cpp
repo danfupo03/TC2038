@@ -11,6 +11,8 @@ using namespace std;
  *
  * @param pat
  * @param txt
+ * 
+ * @complexity O(m*(n-m))
  */
 void search(char *pat, char *txt)
 {
@@ -52,8 +54,8 @@ void search(char *pat, char *txt)
  *
  * @param maliciusString
  * @return the palindrome generated.
+ * 
  */
-
 string generatePalindrome(char *maliciusString)
 {
     string palindrome = "";
@@ -71,6 +73,7 @@ string generatePalindrome(char *maliciusString)
  *
  * @param maliciusString
  * @return the initial position and final positions of the palindrome in the string.
+ * 
  */
 vector<pair<int, int>> searchPalindrome(char *maliciusString, char *transmission)
 {
