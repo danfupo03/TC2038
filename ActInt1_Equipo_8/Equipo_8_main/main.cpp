@@ -68,8 +68,6 @@ string generatePalindrome(string maliciusString)
     return palindrome;
 }
 
-
-
 vector<pair<int, int>> searchAll(string pattern, string transmission)
 {
     vector<pair<int, int>> positions;
@@ -224,6 +222,10 @@ int main(int argc, char *argv[])
 
     cout << "\nPalindromo de cadena maliciosa1 en la transmicion 1: " << endl;
     vector<pair<int, int>> positions = searchPalindrome(mcode1, transmision1);
+    if (positions.size() == 0)
+    {
+        cout << "No se encontro palindromo malicioso en la transmicion" << endl;
+    }
     for (int i = 0; i < positions.size(); i++)
     {
         cout << "Posicion inicial: " << positions[i].first << " Posicion final: " << positions[i].second << endl;
@@ -231,6 +233,10 @@ int main(int argc, char *argv[])
 
     cout << "\nPalindromo de cadena maliciosa2 en la transmicion 1: " << endl;
     positions = searchPalindrome(mcode2, transmision1);
+    if (positions.size() == 0)
+    {
+        cout << "No se encontro palindromo malicioso en la transmicion" << endl;
+    }
     for (int i = 0; i < positions.size(); i++)
     {
         cout << "Posicion inicial: " << positions[i].first << " Posicion final: " << positions[i].second << endl;
@@ -238,6 +244,10 @@ int main(int argc, char *argv[])
 
     cout << "\nPalindromo de cadena maliciosa3 en la transmicion 1: " << endl;
     positions = searchPalindrome(mcode3, transmision1);
+    if (positions.size() == 0)
+    {
+        cout << "No se encontro palindromo malicioso en la transmicion" << endl;
+    }
     for (int i = 0; i < positions.size(); i++)
     {
         cout << "Posicion inicial: " << positions[i].first << " Posicion final: " << positions[i].second << endl;
@@ -245,6 +255,10 @@ int main(int argc, char *argv[])
 
     cout << "\nPalindromo de cadena maliciosa1 en la transmicion 2: " << endl;
     positions = searchPalindrome(mcode1, transmision2);
+    if (positions.size() == 0)
+    {
+        cout << "No se encontro palindromo malicioso en la transmicion" << endl;
+    }
     for (int i = 0; i < positions.size(); i++)
     {
         cout << "Posicion inicial: " << positions[i].first << " Posicion final: " << positions[i].second << endl;
@@ -252,6 +266,10 @@ int main(int argc, char *argv[])
 
     cout << "\nPalindromo de cadena maliciosa2 en la transmicion 2: " << endl;
     positions = searchPalindrome(mcode2, transmision2);
+    if (positions.size() == 0)
+    {
+        cout << "No se encontro palindromo malicioso en la transmicion" << endl;
+    }
     for (int i = 0; i < positions.size(); i++)
     {
         cout << "Posicion inicial: " << positions[i].first << " Posicion final: " << positions[i].second << endl;
@@ -259,6 +277,10 @@ int main(int argc, char *argv[])
 
     cout << "\nPalindromo de cadena maliciosa3 en la transmicion 2: " << endl;
     positions = searchPalindrome(mcode3, transmision2);
+    if (positions.size() == 0)
+    {
+        cout << "No se encontro palindromo malicioso en la transmicion" << endl;
+    }
     for (int i = 0; i < positions.size(); i++)
     {
         cout << "Posicion inicial: " << positions[i].first << " Posicion final: " << positions[i].second << endl;
