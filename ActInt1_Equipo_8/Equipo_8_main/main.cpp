@@ -7,7 +7,7 @@
 using namespace std;
 
 /**
- * @brief Funcion que busca una cadena en otra.
+ * @brief Function that searches for a string in a transmission.
  *
  * @param pat
  * @param txt
@@ -36,14 +36,14 @@ void search(char *pat, char *txt)
         }
         if (j == M)
         {
-            cout << "(true) " << i << endl;
+            cout << "\n(true) " << i << endl;
             found = true;
         }
     }
 
     if (!found)
     {
-        cout << "(false) Cadena no encontrada en la transmision" << endl;
+        cout << "\n(false) Cadena no encontrada en la transmision" << endl;
     }
 }
 
@@ -127,13 +127,13 @@ int main(int argc, char *argv[])
         strcat(s2, line);
     }
 
-    cout << "La cadena maliciosa : " << s1 << " se encuentra en la transmision: " << endl;
+    cout << "La cadena maliciosa: " << s1 << " se encuentra en la transmision: " << endl;
 
     search(s1, s2);
 
     vector<pair<int, int>> positions = searchPalindrome(s1, s2);
 
-    cout << "Posiciones de los palindromos maliciosos: " << endl;
+    cout << "\nPosiciones de los palindromos maliciosos: " << endl;
 
     for (int i = 0; i < positions.size(); i++)
     {
