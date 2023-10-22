@@ -65,10 +65,21 @@ int main()
     for (int i = 0; i < n; i++)
     {
         res = dijkstra(i, g);
-        cout << "From " << i << ":" << endl;
+        cout << "From " << i + 1 << ":" << endl;
         for (auto node : res)
         {
-            cout << node.first << ": " << node.second.distance << endl;
+            int numberAux = node.first + 1;
+
+            if(node.second.distance == 0){
+                continue;
+            }
+            else if (node.second.distance < 0)
+            {
+                cout << numberAux << ": " << "infinito" << endl;
+                continue;
+            }
+
+            cout << numberAux << ": " << node.second.distance << endl;
         }
     }
 

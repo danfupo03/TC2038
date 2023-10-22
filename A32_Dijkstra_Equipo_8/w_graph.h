@@ -95,11 +95,11 @@ std::string WGraph::toString() const
 
     for (int i = 0; i < numVertices; i++)
     {
-        ss << "\t" << i;
+        ss << "\t" << i + 1;
     }
     for (int i = 0; i < numVertices; i++)
     {
-        ss << "\n" << i;
+        ss << "\n" << i + 1;
         for (int j = 0; j < numVertices; j++)
         {
             ss << "\t" << matrix[i][j];
