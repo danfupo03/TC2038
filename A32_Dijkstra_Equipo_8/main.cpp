@@ -70,12 +70,13 @@ int main()
         {
             int numberAux = node.first + 1;
 
-            if(node.second.distance == 0){
+            if (node.second.distance == 0)
                 continue;
-            }
-            else if (node.second.distance < 0)
+
+            if (node.second.distance == INT_MAX)
             {
-                cout << numberAux << ": " << "infinito" << endl;
+                cout << numberAux << ": "
+                     << "infinito" << endl;
                 continue;
             }
 
@@ -89,9 +90,9 @@ int main()
 
 map<int, Visit> dijkstra(const int start, const WGraph graph)
 {
-    map<int, Visit> visits = {};
+    map<int, Visit> visits;
     const int n_vertex = graph.getNumVertices();
-    set<int> unvisited = {};
+    set<int> unvisited;
     for (int i = 0; i < n_vertex; i++)
     {
         if (i == start)
@@ -111,12 +112,15 @@ map<int, Visit> dijkstra(const int start, const WGraph graph)
         auto neighbours = graph.getNeighbours(current);
         for (auto neighbour : neighbours)
         {
-            bool wasVisited = visits[neighbour].distance != INT_MAX;
-            int newDistance = visits[current].distance + graph.getWeight(current, neighbour);
-            if (!wasVisited || newDistance < visits[neighbour].distance)
-            {
+            int currentDistance = visits[current].distance;
+            if (currentDistance == INT_MAX)
+                continue;
+
+            int prevDistance = visits[neighbour].distance;
+            int newDistance = graph.getWeight(current, neighbour) + currentDistance;
+
+            if (newDistance < prevDistance)
                 visits[neighbour] = {current, newDistance};
-            }
         }
         current = *unvisited.begin();
         for (auto node : unvisited)
