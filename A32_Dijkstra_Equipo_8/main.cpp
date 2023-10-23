@@ -15,7 +15,7 @@ typedef struct Visit
 {
     int previousNode;
     int distance;
-};
+} Visit;
 
 /**
  * @brief Sobrecarga do operador < para o struct Visit
