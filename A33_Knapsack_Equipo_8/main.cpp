@@ -42,7 +42,7 @@ int main()
 {
     int N, W;
 
-    cout << "Ingrese el número de elementos: ";
+    cout << "Ingrese el numero de elementos: ";
     cin >> N;
 
     vector<int> values(N);
@@ -64,7 +64,7 @@ int main()
     vector<vector<int>> matrix(N + 1, vector<int>(W + 1, 0));
     int profit = knapsack(N, values, weights, W, matrix);
 
-    cout << "\nBeneficio óptimo: " << profit << endl;
+    cout << "\nBeneficio optimo: " << profit << endl;
 
     cout << "\nMatriz generada:" << endl;
     for (int i = 0; i <= N; ++i)
