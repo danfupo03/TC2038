@@ -86,7 +86,7 @@ int main()
 {
     int N;
 
-    cout << "Enter the number of nodes: ";
+    cout << "Ingresa el número de nodos: ";
     cin >> N;
 
     vector<vector<int>> graph(N, vector<int>(N, 0));
@@ -94,7 +94,7 @@ int main()
     // Enter adjacency matrix
     for (int i = 0; i < N; ++i)
     {
-        cout << "Enter adjacency for node " << i << ": ";
+        cout << "Ingresa la adyacencia del nodo " << i << ": ";
         for (int j = 0; j < N; ++j)
         {
             cin >> graph[i][j];
@@ -105,15 +105,15 @@ int main()
 
     if (result.first == -1)
     {
-        cout << "No valid coloring found." << endl;
+        cout << "No es posible asignar color a los nodos" << endl;
     }
     else
     {
-        cout << "The minimum number of colors required is: " << result.first << endl;
-        cout << "Coloring assignment: " << endl;
+        cout << "\nEl número mínimo de colores requeridos es: " << result.first << endl;
+        cout << "\nAsignación de colores: " << endl;
         for (int i = 0; i < N; ++i)
         {
-            cout << "Node " << i << " -> Color " << result.second[i] << endl;
+            cout << "Vértice " << i << ", Color asignado: " << result.second[i] << endl;
         }
         cout << endl;
     }
