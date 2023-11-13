@@ -4,17 +4,17 @@
 #include <limits.h>
 #include <set>
 #include <queue>
-#include "w_graph.h"
+#include "kruskal.h"
 
 using namespace std;
 
 bool bfs(WGraph, int, int, int[]);
 pair<int, WGraph> fordFulkerson(WGraph, int, int);
-
 int main()
 {
+    Kruskal kruskal;
 
-    cout << "Number of vertexes: ";
+    cout << "Number of vertices: ";
     int nVertexes;
     cin >> nVertexes;
 
@@ -24,20 +24,36 @@ int main()
 
     for (int i = 0; i < nVertexes; i++)
     {
-        cout << i << ": ";
+        cout << i + 1 << ": ";
         for (int j = 0; j < nVertexes; j++)
         {
-            int w;
-            cin >> w;
-            if (w != -1)
+            int weight;
+            cin >> weight;
+            if (weight != -1)
             {
-                graph.addEdge(i, j, w);
+                graph.addEdge(i, j, weight);
             }
         }
     }
 
-    cout << graph.toString() << endl;
+    cout << "Input Graph:\n"
+         << graph.toString() << endl;
 
+    auto mst = kruskal.kruskalMST(graph);
+
+    // Create a new WGraph to represent the MST
+    WGraph mstGraph(nVertexes);
+    for (const auto &edge : mst)
+    {
+        int u = edge.second.first;
+        int v = edge.second.second;
+        int weight = edge.first;
+        mstGraph.addEdge(u, v, weight);
+        mstGraph.addEdge(v, u, weight); // Assuming an undirected graph
+    }
+
+    cout << "\nMST:\n"
+         << mstGraph.toString() << endl;
 
     auto ans = fordFulkerson(graph, 0,  nVertexes - 1);
     cout << "Max Flow: " << ans.first << endl;
@@ -59,6 +75,7 @@ int main()
 
     cout << "Fractions: " << endl;
     cout << fractions.toString() << endl;
+
     return 0;
 }
 
@@ -141,3 +158,4 @@ pair<int, WGraph> fordFulkerson(WGraph graph, int start, int end)
     }
     return {max_flow, rGraph};
 }
+

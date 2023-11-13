@@ -8,7 +8,7 @@ class WGraph
 {
 public:
     WGraph(int n);
-    WGraph(WGraph &);
+    WGraph(const WGraph &other);
     void addEdge(int u, int v, int w);
     void removeEdge(int u, int v);
     bool hasEdge(int u, int v) const;
@@ -33,7 +33,8 @@ WGraph::WGraph(int n)
     matrix = vector<vector<int>>(n, vector<int>(n, 0));
 }
 
-WGraph::WGraph(WGraph &other){
+WGraph::WGraph(const WGraph &other)
+{
     numVertices = other.numVertices;
     numEdges = other.numEdges;
     matrix = vector<vector<int>>(numVertices, vector<int>(numVertices, 0));
@@ -41,7 +42,7 @@ WGraph::WGraph(WGraph &other){
         for (int j = 0; j < numVertices; j++)
             matrix[i][j] = other.matrix[i][j];
 }
-
+    
 void WGraph::addEdge(int u, int v, int w)
 {
     if (matrix[u][v] == 0)
