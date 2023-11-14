@@ -4,49 +4,62 @@
 #include <vector>
 #include <queue>
 #include <limits>
+#include <iostream>
 #include "w_graph.h"
 
 using namespace std;
 
+struct Edge
+{
+    int weight;
+    int u;
+    int v;
+};
+
+bool operator>(const Edge &lhs, const Edge &rhs)
+{
+    return lhs.weight > rhs.weight;
+}
+
+template <class T>
+using i_priority_queue = priority_queue<T, vector<T>, greater<T>>;
+
+int find(int i, vector<int> &parent)
+{
+    if (parent[i] == -1)
+        return i;
+
+    return parent[i] = find(parent[i], parent);
+}
+
+void Union(int rootI, int rootJ, vector<int> &parent, vector<int> &rank)
+{
+    if (rootI != rootJ)
+    {
+        if (rank[rootI] < rank[rootJ])
+            parent[rootI] = rootJ;
+        else if (rank[rootI] > rank[rootJ])
+            parent[rootJ] = rootI;
+        else
+        {
+            parent[rootJ] = rootI;
+            rank[rootI]++;
+        }
+    }
+}
+
 WGraph mst(const WGraph &graph)
 {
     int numVertices = graph.getNumVertices();
-    vector<pair<int, pair<int, int>>> result;
-
-    // Helper function to find the root of a set
-    auto find = [&](int i, vector<int> &parent)
-    {
-        while (parent[i] != i)
-            i = parent[i];
-        return i;
-    };
-
-    // Helper function to perform union of two sets
-    auto Union = [&](int i, int j, vector<int> &parent, vector<int> &rank)
-    {
-        int rootI = find(i, parent);
-        int rootJ = find(j, parent);
-
-        if (rootI != rootJ)
-        {
-            if (rank[rootI] < rank[rootJ])
-                parent[rootI] = rootJ;
-            else if (rank[rootI] > rank[rootJ])
-                parent[rootJ] = rootI;
-            else
-            {
-                parent[rootJ] = rootI;
-                rank[rootI]++;
-            }
-        }
-    };
+    vector<Edge> result;
+    WGraph mst(numVertices);
 
     // Initialize parent and rank arrays
-    vector<int> parent(numVertices, 0);
-    vector<int> rank(numVertices, 0);
+    vector<int> parent(numVertices, -1);
+    vector<int> rank(numVertices, 1);
 
     // Priority queue to store edges sorted by weight
-    priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, greater<pair<int, pair<int, int>>>> pq;
+    i_priority_queue<Edge> pq;
 
     // Add all edges to the priority queue
     for (int i = 0; i < numVertices; ++i)
@@ -54,35 +67,26 @@ WGraph mst(const WGraph &graph)
         for (int j : graph.getNeighbours(i))
         {
             int weight = graph.getWeight(i, j);
-            pq.push({weight, {i, j}});
+            pq.push({weight, i, j});
         }
     }
 
     // Process edges from the priority queue
     while (!pq.empty())
     {
-        int weight = pq.top().first;
-        int u = pq.top().second.first;
-        int v = pq.top().second.second;
+        Edge edge = pq.top();
         pq.pop();
 
         // Check for a cycle
-        if (find(u, parent) != find(v, parent))
+        int rootI = find(edge.u, parent);
+        int rootJ = find(edge.v, parent);
+        if (rootI != rootJ)
         {
-            result.push_back({weight, {u, v}});
-            Union(u, v, parent, rank);
+            mst.addEdge(edge.u, edge.v, edge.weight);
+            Union(rootI, rootJ, parent, rank);
         }
     }
-
-    WGraph mst(numVertices);
-
-    for (auto edge : result)
-    {
-        mst.addEdge(edge.second.first, edge.second.second, edge.first);
-    }
-
     return mst;
 }
 
-
-#endif 
+#endif
