@@ -1,3 +1,6 @@
+#ifndef W_GRAPH_H
+#define W_GRAPH_H
+
 #include <sstream>
 #include <string>
 #include <vector>
@@ -42,7 +45,7 @@ WGraph::WGraph(const WGraph &other)
         for (int j = 0; j < numVertices; j++)
             matrix[i][j] = other.matrix[i][j];
 }
-    
+
 void WGraph::addEdge(int u, int v, int w)
 {
     if (matrix[u][v] == 0)
@@ -127,3 +130,5 @@ string WGraph::toString() const
     }
     return ss.str();
 }
+
+#endif

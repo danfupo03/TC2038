@@ -1,20 +1,14 @@
-#include <iostream>
+#ifndef MST_H
+#define MST_H
+
 #include <vector>
 #include <queue>
 #include <limits>
-#include <sstream>
-#include <numeric>
 #include "w_graph.h"
 
 using namespace std;
-class Kruskal
-{
-public:
-    vector<pair<int, pair<int, int>>> kruskalMST(const WGraph &graph);
-    vector<pair<int, pair<int, int>>> MST(const WGraph &graph);
-};
 
-vector<pair<int, pair<int, int>>> Kruskal::kruskalMST(const WGraph &graph)
+WGraph mst(const WGraph &graph)
 {
     int numVertices = graph.getNumVertices();
     vector<pair<int, pair<int, int>>> result;
@@ -48,9 +42,7 @@ vector<pair<int, pair<int, int>>> Kruskal::kruskalMST(const WGraph &graph)
     };
 
     // Initialize parent and rank arrays
-    vector<int> parent(numVertices);
-    iota(parent.begin(), parent.end(), 0);
-
+    vector<int> parent(numVertices, 0);
     vector<int> rank(numVertices, 0);
 
     // Priority queue to store edges sorted by weight
@@ -82,11 +74,15 @@ vector<pair<int, pair<int, int>>> Kruskal::kruskalMST(const WGraph &graph)
         }
     }
 
-    return result;
+    WGraph mst(numVertices);
+
+    for (auto edge : result)
+    {
+        mst.addEdge(edge.second.first, edge.second.second, edge.first);
+    }
+
+    return mst;
 }
 
-vector<pair<int, pair<int, int>>> Kruskal::MST(const WGraph &graph)
-{
-    return kruskalMST(graph);
-}
 
+#endif 
