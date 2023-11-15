@@ -6,6 +6,15 @@
 
 using std::vector;
 
+/**
+ * @brief TSP algorithm that finds the shortest path that visits all the nodes.
+ * 
+ * @param graph 
+ * @param s 
+ * @return pair<int, vector<char>> 
+ * 
+ * @complexity O(n!)
+ */
 pair<int, vector<char>> tsp(WGraph graph, int s)
 {
     vector<int> vertex;
