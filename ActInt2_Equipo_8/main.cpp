@@ -44,8 +44,8 @@ int main()
 
     auto tspAns = tsp(graph, 0);
 
-    cout << "TSP: " << tspAns.first << endl;
-    cout << "Recorrido: ";
+    cout << "\nCosto mínimo: " << tspAns.first << endl;
+    cout << "Recorrido más eficiente: ";
     for (auto i : tspAns.second)
         cout << i << " ";
     cout << endl;
