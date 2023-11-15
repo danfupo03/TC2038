@@ -46,10 +46,8 @@ int main()
 
     cout << "TSP: " << tspAns.first << endl;
     cout << "Recorrido: ";
-    for (char vertex : tspAns.second)
-    {
-        cout << vertex << " ";
-    }
+    for (auto i : tspAns.second)
+        cout << i << " ";
     cout << endl;
 
     WGraph graph2(nVertexes);

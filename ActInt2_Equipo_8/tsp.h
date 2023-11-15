@@ -6,45 +6,39 @@
 
 using std::vector;
 
-pair<int, vector<char>> tsp(WGraph graph, int start)
+pair<int, vector<char>> tsp(WGraph graph, int s)
 {
-    int nVertexes = graph.getNumVertices();
-    int parent[nVertexes];
-    int min_cost = 0;
-    WGraph mst(graph);
-    int current = start;
-    int next = start;
-    int count = 0;
+    vector<int> vertex;
+    for (int i = 0; i < graph.getNumVertices(); i++)
+        if (i != s)
+            vertex.push_back(i);
 
-    vector<char> visited;
+    int minCost = INT_MAX;
+    vector<char> minPath;
 
-    char vertexToLetter[26];
-    for (int i = 0; i < 26; ++i)
+    do
     {
-        vertexToLetter[i] = static_cast<char>('A' + i);
-    }
+        int currentCost = 0;
+        vector<char> path = {static_cast<char>('A' + s)};
+        int k = s;
 
-    while (count < nVertexes)
-    {
-        int min = INT_MAX;
-        auto neighbours = mst.getNeighboursWithWeight(current);
-        for (auto neighbour : neighbours)
+        for (int i = 0; i < vertex.size(); i++)
         {
-            if (neighbour.second < min)
-            {
-                min = neighbour.second;
-                next = neighbour.first;
-            }
+            currentCost += graph.getWeight(k, vertex[i] - 1);
+            k = vertex[i];
+            path.push_back(static_cast<char>('A' + vertex[i]));
         }
-        min_cost += min;
-        mst.setWeight(current, next, INT_MAX);
-        mst.setWeight(next, current, INT_MAX);
-        current = next;
-        visited.push_back(vertexToLetter[current]);
-        count++;
-    }
-    visited.push_back(vertexToLetter[start]);
-    return {min_cost, visited};
+        currentCost += graph.getWeight(k, s - 1);
+
+        if (currentCost < minCost)
+        {
+            minCost = currentCost;
+            minPath = path;
+        }
+
+    } while (next_permutation(vertex.begin(), vertex.end()));
+
+    return {minCost, minPath};
 }
 
 #endif
