@@ -43,6 +43,16 @@ bool bfs(WGraph rGraph, int start, int end, int parent[])
     return false;
 }
 
+/**
+ * @brief Ford-Fulkerson algorithm that finds the maximum flow of a graph.
+ * 
+ * @param graph 
+ * @param start
+ * @param end
+ * @return pair<int, WGraph> 
+ * 
+ * @complexity O(max_flow * E)
+ */
 pair<int, WGraph> fordFulkerson(WGraph graph, int start, int end)
 {
     int nVertexes = graph.getNumVertices();
