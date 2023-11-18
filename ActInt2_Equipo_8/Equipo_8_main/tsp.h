@@ -34,11 +34,11 @@ pair<int, vector<char>> tsp(WGraph graph, int s)
 
         for (int i = 0; i < vertex.size(); i++)
         {
-            currentCost += graph.getWeight(k, vertex[i] - 1);
+            currentCost += graph.getWeight(k, vertex[i]);
             k = vertex[i];
             path.push_back(static_cast<char>('A' + vertex[i]));
         }
-        currentCost += graph.getWeight(k, s - 1);
+        currentCost += graph.getWeight(k, s);
 
         if (currentCost < minCost)
         {
