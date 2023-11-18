@@ -7,6 +7,7 @@
 #include "mst.h"
 #include "tsp.h"
 #include "max_flow.h"
+#include "nearest_neighbour.h"
 
 using namespace std;
 
@@ -75,5 +76,35 @@ int main()
 
     cout << "Residual Graph: " << endl;
     cout << ans.second.toString() << endl;
+
+    cout << "Nearset Neighbour: " << endl;
+    vector<pair<int, int>> points(nVertexes);
+
+    for (int i = 0; i < nVertexes; i++)
+    {
+        cout << "Point " << i + 1 << ": ";
+        string buffer;
+        // parse (###, ###) into numbers
+        cin >> buffer;
+        buffer = buffer.substr(1, buffer.size() - 2);
+        int comma = buffer.find(',');
+        points[i].first = stoi(buffer.substr(0, comma));
+        points[i].second = stoi(buffer.substr(comma + 1, buffer.size() - comma - 1));
+    }    
+
+    cout << "Targuet: ";
+    string buffer;
+    // parse (###, ###) into numbers
+    cin >> buffer;
+    buffer = buffer.substr(1, buffer.size() - 2);
+    int comma = buffer.find(',');
+    pair<int, int> targuet;
+    targuet.first = stoi(buffer.substr(0, comma));
+    targuet.second = stoi(buffer.substr(comma + 1, buffer.size() - comma - 1));
+
+    auto ans2 = nearest_neighbour(points, targuet);
+
+    cout << "Nearest Neighbour: " << ans2.first << ", " << ans2.second << endl;
+
     return 0;
 }
