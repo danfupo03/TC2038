@@ -3,6 +3,7 @@
 
 #include <limits.h>
 #include "w_graph.h"
+#include <algorithm>
 
 using std::vector;
 

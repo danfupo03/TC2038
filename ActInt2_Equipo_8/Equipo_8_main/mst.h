@@ -48,6 +48,14 @@ void Union(int rootI, int rootJ, vector<int> &parent, vector<int> &rank)
     }
 }
 
+/**
+ * @brief MST algorithm that finds the minimum spanning tree of a graph.
+ * 
+ * @param graph 
+ * @return WGraph
+ * 
+ * @complexity O(E log V)
+ */
 WGraph mst(const WGraph &graph)
 {
     int numVertices = graph.getNumVertices();
